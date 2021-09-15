@@ -92,6 +92,7 @@ def create_proxy_class(base_name):
         _is_versioned = True
 
         def __init__(self):
+            # return getattr(self.__class__, 'latest')()
             message = 'Cannot call `{name}` directly, use versioned attributes instead (`{name}`.vX)'.format(
                 name=self.__class__._base_name)
             raise NotCallableException(message)
