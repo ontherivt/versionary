@@ -129,7 +129,6 @@ def versioned(number=None):
         def latest(cls, *args, **kwargs):
             v = sorted([x for x in cls.__dict__.keys() if len(x) > 1 and x[0] == "v" and x[1].isnumeric()])[-1]
             return (getattr(cls, v)(*args, **kwargs))
-        print(f"TYPE: {type(member)}, {type(proxy)}")
         setattr(proxy, 'latest', classmethod(latest))
 
         return proxy

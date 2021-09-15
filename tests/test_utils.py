@@ -31,13 +31,6 @@ def test_create_proxy_class():
 
     proxy = create_proxy_class(base_name)
 
-    message = 'Cannot call `base_name` directly, use versioned attributes instead (`base_name`.vX)'
-
-    with raises(NotCallableException) as excinfo:
-        proxy()
-
-    assert str(excinfo.value) == message
-
     setattr(proxy, 'v1', 'my_attr')
 
     assert proxy.v1 == 'my_attr'
