@@ -1,7 +1,5 @@
 # Versionary
 
-[![Build Status](https://travis-ci.org/wearespindle/versionary.svg?branch=develop)](https://travis-ci.org/wearespindle/versionary)
-
 Package that allows to version code paths with the use of a decorator.
 
 ## Status
