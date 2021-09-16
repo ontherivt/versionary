@@ -22,6 +22,8 @@ jobs:
     # A list of available CircleCI Docker convenience images are available here: https://circleci.com/developer/images/image/cimg/python
     # The executor is the environment in which the steps below will be executed - below will use a python 3.9 container
     # Change the version below to your required version of python
+    environment:
+      CC_TEST_REPORTER_ID: 40848b383de4036e6338e34b8b1f7bf67f80b3f2a85c83171d43f7873408f227
     docker:
       - image: cimg/python:3.8
     # Checkout the code as the first step. This is a dedicated CircleCI step.
@@ -31,6 +33,11 @@ jobs:
     # CircleCI will report the results back to your VCS provider.
     steps:
       - checkout
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - python/install-packages:
           pkg-manager: pip
           # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
@@ -38,4 +45,11 @@ jobs:
       - run:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
-          command: pytest
+          command: coverage run -m pytest
+      - run:
+          name: Run coverage report
+          # This assumes pytest is installed via the install-package step above
+          command: coverage xml --omit='env/*,tests/*'
+      - run:
+          name: Upload coverage report
+          command: ./cc-test-reporter format-coverage -t coverage.py && ./cc-test-reporter upload-coverage
