@@ -87,6 +87,12 @@ Foo.v2("car").rad() == "racer: car"
 Foo.latest("speed").rad() == "racer: speed"
 ```
 
+If all you ever want is the latest version of a thing, you can simply invoke it directly:
+
+```python
+# use the Foo class from above...
+Foo("car").rad() == "racer: car"
+```
 
 ## Contributing
 

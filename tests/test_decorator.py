@@ -188,9 +188,27 @@ def test_latest():
 
         def rad(self):
             return f"racer: {self.local_thing}"
+
+    class Bar:
+
+        @versioned(1)
+        def baz():
+            return "qux"
+
+        @versioned(2)
+        def baz():
+            return "QUX"
     
+    # test latest on classes
     assert Foo.v1("bod").rad() == "dad: bod"
     assert Foo.v2("car").rad() == "racer: car"
     assert Foo.latest("speed").rad() == "racer: speed"
     assert Foo.latest().__class__.cls_mthd() == "Foo version 2"
-    
+
+    # test latest on methods
+    assert Bar().baz.v1() == "qux"
+    assert Bar().baz.latest() == "QUX"
+
+    # test the ability to instantiate directly to get the latest
+    assert Foo("bar").rad() == "racer: bar"
+    assert Bar().baz() == "QUX"
